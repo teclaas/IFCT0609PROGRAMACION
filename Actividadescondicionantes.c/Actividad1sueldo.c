@@ -7,21 +7,21 @@ void Alfa(int *val, float pos) {
     return;
 }
 
-// Función Beta: Modifica el valor de 'pos' pero no afecta a 'val' fuera de la función.
+// Función Beta: Modifica el valor de 'pos' pero no afecta a 'val' fuera de la función//.
 void Beta(int val, float *pos) {
-    val = 10; // No cambia el valor de 'a' fuera de la función.
-    *pos = 14.7; // Cambia el valor de 'b' a 14.7.
+    val = 10; // No cambia el valor de 'a' fuera de la función//
+    *pos = 14.7; // Cambia el valor de 'b' a 14.7//.
 }
 
 int main(void) {
-    int a = 6; // Inicializa 'a' con 6.
-    float b = 9.87; // Inicializa 'b' con 9.87.
+    int a = 6; // Inicializa 'a' con 6//.
+    float b = 9.87; // Inicializa 'b' con 9.87//.
 
-    printf("Al principio valen a=%d b=%f\n", a, b); // Imprime los valores iniciales de 'a' y 'b'.
+    printf("Al principio valen a=%d b=%f\n", a, b); // Imprime los valores iniciales de 'a' y 'b'//.
     Alfa(&a, b); // Llama a la función Alfa.
-    printf("Despues de Alfa valen a=%d b=%f\n", a, b); // Imprime los valores de 'a' y 'b' después de llamar a Alfa.
+    printf("Despues de Alfa valen a=%d b=%f\n", a, b); // Imprime los valores de 'a' y 'b' después de llamar a Alfa//.
     Beta(a, &b); // Llama a la función Beta.
-    printf("Después de Beta valen a=%d b=%f\n", a, b); // Imprime los valores de 'a' y 'b' después de llamar a Beta.
+    printf("Después de Beta valen a=%d b=%f\n", a, b); // Imprime los valores de 'a' y 'b' después de llamar a Beta//.
 
     return 0;
 }
