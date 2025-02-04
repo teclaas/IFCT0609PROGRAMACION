@@ -3,7 +3,7 @@
 int main() {
     int num1, num2, num3, temp;
 
-    // Solicitar los tres números
+    // Solicitar los tres números//
     printf("Introduce el primer número: ");
     scanf("%d", &num1);
     printf("Introduce el segundo número: ");
@@ -11,7 +11,7 @@ int main() {
     printf("Introduce el tercer número: ");
     scanf("%d", &num3);
 
-    // Ordenar los números de mayor a menor
+    // Ordenar los números de mayor a menor//
     if (num1 < num2) {
         temp = num1;
         num1 = num2;
@@ -28,7 +28,7 @@ int main() {
         num3 = temp;
     }
 
-    // Mostrar los números ordenados
+    // Mostrar los números ordenados//
     printf("Los números ordenados de mayor a menor son: %d, %d, %d\n", num1, num2, num3);
 
     return 0;
