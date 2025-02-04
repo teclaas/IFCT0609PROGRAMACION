@@ -24,11 +24,3 @@ int main() {
     double sueldo_neto;
 
     printf("Introduce el número de años que lleva en la empresa: ");
-    scanf("%d", &años);
-
-    sueldo_neto = calcular_sueldo(sueldo_base, años);
-
-    printf("El sueldo neto es: %.2f euros\n", sueldo_neto);
-
-    return 0;
-}
