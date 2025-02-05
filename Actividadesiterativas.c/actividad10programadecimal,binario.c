@@ -11,7 +11,7 @@ void convertirABinario(int num) {
         i++;
     }
 
-    // Imprimir en orden inverso
+    // Imprimir en orden inverso//
     printf("Binario: ");
     for (int j = i - 1; j >= 0; j--) {
         printf("%c", binario[j]);
@@ -30,7 +30,7 @@ void convertirAHexadecimal(int num) {
         i++;
     }
 
-    // Imprimir en orden inverso
+    // Imprimir en orden inverso//
     printf("Hexadecimal: ");
     for (int j = i - 1; j >= 0; j--) {
         printf("%c", hexadecimal[j]);
