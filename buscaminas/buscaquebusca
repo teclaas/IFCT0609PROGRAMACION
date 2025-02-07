@@ -1,0 +1,152 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Definición de constantes para el tamaño del tablero y los niveles
+#define TAMANO_TABLERO 10
+#define MAX_BOMBAS 50
+
+// Estructura para representar una celda del tablero
+typedef struct {
+    int es_bomba;
+    int es_descubierta;
+} Celda;
+
+// Prototipos de funciones
+void inicializar_tablero(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO], int nivel);
+void mostrar_tablero(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO]);
+int ingresar_coordenadas(int *x, int *y);
+int descubrir_celda(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO], int x, int y, int nivel);
+int todas_celdas_descubiertas(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO]);
+
+int main() {
+    Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO];
+    int nivel, x, y;
+    int resultado;
+
+    srand(time(NULL));
+
+    while (1) {
+        printf("Selecciona un nivel (1-5) o 0 para salir: ");
+        scanf("%d", &nivel);
+
+        if (nivel == 0) {
+            printf("Saliendo del programa...\n");
+            break;
+        }
+
+        if (nivel < 1 || nivel > 5) {
+            printf("Nivel no válido. Inténtalo de nuevo.\n");
+            continue;
+        }
+
+        inicializar_tablero(tablero, nivel);
+        printf("¡Comienza el juego del buscaminas en el nivel %d!\n", nivel);
+
+        while (1) {
+            mostrar_tablero(tablero);
+            resultado = ingresar_coordenadas(&x, &y);
+
+            if (resultado == 0) {
+                continue;
+            }
+
+            resultado = descubrir_celda(tablero, x, y, nivel);
+
+            if (resultado == -1) {
+                printf("¡Boom! Has descubierto una bomba. Juego terminado.\n");
+                break;
+            }
+
+            if (todas_celdas_descubiertas(tablero)) {
+                printf("¡Felicidades! Has descubierto todas las celdas sin bombas. Ganaste.\n");
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
+
+void inicializar_tablero(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO], int nivel) {
+    int bombas = 10 + (nivel - 1) * 5;
+    int x, y;
+
+    // Inicializar todas las celdas
+    for (int i = 0; i < TAMANO_TABLERO; i++) {
+        for (int j = 0; j < TAMANO_TABLERO; j++) {
+            tablero[i][j].es_bomba = 0;
+            tablero[i][j].es_descubierta = 0;
+        }
+    }
+
+    // Colocar bombas aleatoriamente
+    for (int i = 0; i < bombas; i++) {
+        do {
+            x = rand() % TAMANO_TABLERO;
+            y = rand() % TAMANO_TABLERO;
+        } while (tablero[x][y].es_bomba);
+
+        tablero[x][y].es_bomba = 1;
+    }
+}
+
+void mostrar_tablero(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO]) {
+    printf("\n  ");
+    for (int i = 0; i < TAMANO_TABLERO; i++) {
+        printf("%2d ", i);
+    }
+    printf("\n");
+
+    for (int i = 0; i < TAMANO_TABLERO; i++) {
+        printf("%2d ", i);
+        for (int j = 0; j < TAMANO_TABLERO; j++) {
+            if (tablero[i][j].es_descubierta) {
+                if (tablero[i][j].es_bomba) {
+                    printf(" B ");
+                } else {
+                    printf(" . ");
+                }
+            } else {
+                printf(" # ");
+            }
+        }
+        printf("\n");
+    }
+}
+
+int ingresar_coordenadas(int *x, int *y) {
+    printf("Ingresa las coordenadas (x y): ");
+    return scanf("%d %d", x, y);
+}
+
+int descubrir_celda(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO], int x, int y, int nivel) {
+    if (x < 0 || x >= TAMANO_TABLERO || y < 0 || y >= TAMANO_TABLERO) {
+        printf("Coordenadas fuera del tablero. Inténtalo de nuevo.\n");
+        return 0;
+    }
+
+    if (tablero[x][y].es_descubierta) {
+        printf("La celda ya ha sido descubierta. Inténtalo de nuevo.\n");
+        return 0;
+    }
+
+    tablero[x][y].es_descubierta = 1;
+
+    if (tablero[x][y].es_bomba) {
+        return -1;
+    }
+
+    return 1;
+}
+
+int todas_celdas_descubiertas(Celda tablero[TAMANO_TABLERO][TAMANO_TABLERO]) {
+    for (int i = 0; i < TAMANO_TABLERO; i++) {
+        for (int j = 0; j < TAMANO_TABLERO; j++) {
+            if (!tablero[i][j].es_descubierta && !tablero[i][j].es_bomba) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
