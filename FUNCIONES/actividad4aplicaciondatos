@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+// Definición de la estructura gps_information//
+struct gps_information {
+    int is_3D;
+    float latitude;
+    float longitude;
+    float height;
+};
+
+// Prototipo de la función compare_gps//
+int compare_gps(struct gps_information gps1, struct gps_information gps2, float threshold);
+
+// Implementación de la función compare_gps//
+int compare_gps(struct gps_information gps1, struct gps_information gps2, float threshold) {
+    float lat_diff = fabsf(gps1.latitude - gps2.latitude);
+    float long_diff = fabsf(gps1.longitude - gps2.longitude);
+
+    if (lat_diff <= threshold && long_diff <= threshold) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// Función para listar dispositivos USB conectados//
+void list_usb_devices() {
+    FILE *fp;
+    char path[1035];
+
+    // Ejecuta el comando lsusb para listar los dispositivos USB//
+    fp = popen("lsusb", "r");
+    if (fp == NULL) {
+        printf("No se pudo ejecutar el comando.\n");
+        exit(1);
+    }
+
+    // Lee la salida del comando y la imprime//
+    while (fgets(path, sizeof(path), fp) != NULL) {
+        printf("%s", path);
+    }
+
+    // Cierra el proceso//
+    pclose(fp);
+}
+
+int main() {
+    // Listar dispositivos USB conectados//
+    printf("Dispositivos USB conectados:\n");
+    list_usb_devices();
+
+    // Ejemplo de comparación de información GPS//
+    struct gps_information gps1 = {1, 40.712776, -74.005974, 10.0};
+    struct gps_information gps2 = {1, 40.712776, -74.005974, 15.0};
+    float threshold = 0.1;
+
+    int result = compare_gps(gps1, gps2, threshold);
+
+    if (result) {
+        printf("Las coordenadas están dentro del umbral.\n");
+    } else {
+        printf("Las coordenadas están fuera del umbral.\n");
+    }
+
+    return 0;
+}
